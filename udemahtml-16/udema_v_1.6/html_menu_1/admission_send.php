@@ -36,10 +36,10 @@
     </script>
 
 </head>
-<body onLoad="setTimeout('delayedRedirect()', 8000)" style="background-color:#fff;">
+<body onLoad="setTimeout('delayedRedirect()', 1000)" style="background-color:#fff;">
 <?php
 						$mail = $_POST['email'];
-						$to = "test@domani.com";/* YOUR EMAIL HERE */
+						$to = "ekouakt@gmail.com";/* YOUR EMAIL HERE */
 						$subject = "Admission from UDEMA";
 						$headers = "From: Admission from UDEMA <noreply@yourdomain.com>";
 						$message = "DETAILS\n";
@@ -47,18 +47,24 @@
 						$message .= "\nLast name: " . $_POST['lastname'];
 						$message .= "\nEmail: " . $_POST['email'];
 						$message .= "\nTelephone: " . $_POST['telephone'];
+
+						// if (isPhone($_POST['telephone']))
+
+						// function isPhone($var){
+						// 	return preg_match("/^[0-9 ]*$/", $var)
+						// }
 						$message .= "\nEducation level: " . $_POST['education_apply'];
 						$message .= "\nAge: " . $_POST['age'];
 						$message .= "\nGender: " . $_POST['gender'] . "\n";
 						$message .= "\nAddress: " . $_POST['address'];
 						$message .= "\nCity: " . $_POST['city'];
-						$message .= "\nZipcode: " . $_POST['zip_code'];
-						$message .= "\nCountry: " . $_POST['country'] . "\n";
-						$message .= "\nYour course preferences\n" ;
-						foreach($_POST['preferences'] as $value) 
-							{ 
-							$message .=   "- " .  trim(stripslashes($value)) . "\n"; 
-							};
+						// $message .= "\nZipcode: " . $_POST['zip_code'];
+						// $message .= "\nCountry: " . $_POST['country'] . "\n";
+						// $message .= "\nYour course preferences\n" ;
+						// foreach($_POST['preferences'] as $value) 
+						// 	{ 
+						// 	$message .=   "- " .  trim(stripslashes($value)) . "\n"; 
+						// 	};
 						$message .= "\nAdditional message: " . $_POST['additional_message'];
 						$message .= "\nTerms and conditions accepted: " . $_POST['terms'];
 												
@@ -86,8 +92,8 @@
                 </g>
               </svg>
      </div>
-<h4><span>Request successfully sent!</span>Thank you for your time</h4>
-<small>You will be redirect back in 5 seconds.</small>
+<h4><span>Inscription réussi!</span>Merci d'être passé che nous!</h4>
+<small>Patientez 5 seconds.</small>
 </div>
 </body>
 </html>
