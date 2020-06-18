@@ -27,6 +27,9 @@
   <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   <!-- Plugin styles -->
   <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
   <link href="vendor/dropzone.css" rel="stylesheet">
   <link href="css/date_picker.css" rel="stylesheet">
   <!-- Your custom styles -->
@@ -243,18 +246,26 @@
       <div class="row">
 				<div class="col-md-6">
 					<div class="form-group">
-						<label>Nom UE</label>
-						<input type="text" class="form-control" placeholder="Course title">
+						<select class="browser-default custom-select custom-select-lg mb-3 col-lg-12">
+              <option selected>Choisir l'UE</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="form-group">
-						<label>Nom ECUE</label>
-						<input type="text" class="form-control" placeholder="Course category">
+						<select class="browser-default custom-select custom-select-lg mb-3 col-lg-12">
+              <option selected>Choisir l'ECUE</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
 					</div>
 				</div>
 			</div>
-
+<hr>
 			<div class="row">
 				<div class="col-md-6">
 					<div class="form-group">
@@ -297,7 +308,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="form-group">
-						<label>image du cour</label>
+						<label>Teaser</label>
 						<form action="/file-upload" class="dropzone" ></form>
 					</div>
 				</div>
@@ -368,9 +379,45 @@
 					</table>
 					<a href="#0" class="btn_1 gray add-pricing-list-item"><i class="fa fa-fw fa-plus-circle"></i>Add Item</a>
 					</div>
+      </div>
+      
+
+			<!-- /row-->
+    </div>
+    
+
+    <div class="box_general padding_bottom">
+			<div class="header_box version_2">
+				<h2><i class="fa fa-video-camera"></i>PDF</h2>
 			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<h6>Item</h6>
+					<table id="pricing-list-container" style="width:100%;">
+						<tr class="pricing-list-item">
+							<td>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                  </div>
+                  <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                  </div>
+                </div>
+								
+								</div>
+							</td>
+						</tr>
+					</table>
+				
+					</div>
+      </div>
+      
+
 			<!-- /row-->
 		</div>
+
 		<!-- /box_general-->
 		<p><a href="#0" class="btn_1 medium">Save</a></p>
 	  </div>
@@ -401,12 +448,14 @@
           <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="login.html">Logout</a>
+            <a class="btn btn-primary" href="login.php">Logout</a>
           </div>
         </div>
       </div>
     </div>
     <!-- Bootstrap core JavaScript-->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- Core plugin JavaScript-->
