@@ -84,13 +84,13 @@
 </li>
 
 
-<!-- <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Bookmarks">
-//   <a class="nav-link" href="bookmarks.html">
-//     <i class="fa fa-fw fa-heart"></i>
-//     <span class="nav-link-text">Bookmarks</span>
-//   </a>
-// </li>
-// <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add listing">
+<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Bookmarks">
+   <a class="nav-link" href="tables.html">
+     <i class="fa fa-fw fa-heart"></i>
+     <span class="nav-link-text">Voir Classe</span>
+   </a>
+ </li>
+<!-- // <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add listing">
 //   <a class="nav-link" href="add-listing.html">
 //     <i class="fa fa-fw fa-plus-circle"></i>
 //     <span class="nav-link-text">Add listing</span>
