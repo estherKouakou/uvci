@@ -1,3 +1,8 @@
+<?php
+ require 'database.php'
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -68,12 +73,19 @@
 //   </a>
 // </li> -->
 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Reviews">
-<a class="nav-link" href="reviews.html">
-<i class="fa fa-fw fa-plus-circle"></i>
-<span class="nav-link-text">Ajouter Cour</span>
-</a>
+	<a class="nav-link" href="reviews.html">
+		<i class="fa fa-fw fa-plus-circle"></i>
+		<span class="nav-link-text">Ajouter Cour</span>
+	</a>
 </li>
 
+
+<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Bookmarks">
+	<a class="nav-link" href="tables.html">
+	  <i class="fa fa-fw fa-heart"></i>
+	  <span class="nav-link-text">Voir Classe</span>
+	</a>
+  </li>
 
 <!-- <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Bookmarks">
 //   <a class="nav-link" href="bookmarks.html">
@@ -229,39 +241,40 @@
  
 
   <!-- /Navigation-->
-  <div class="content-wrapper">
+<div class="content-wrapper">
     <div class="container-fluid">
       <!-- Breadcrumbs-->
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href="#">Dashboard</a>
-        </li>
-        <li class="breadcrumb-item active">Add listing</li>
-      </ol>
+      	<ol class="breadcrumb">
+			<li class="breadcrumb-item">
+				<a href="#">Dashboard</a>
+			</li>
+			<li class="breadcrumb-item active">Ajouter un cour</li>
+		</ol>
+		<form role="form" action="add-listing.php" method="POST" enctype="multipart/form-data"> 
 		<div class="box_general padding_bottom">
 			<div class="header_box version_2">
 				<h2><i class="fa fa-file"></i>Basic info</h2>
-      </div>
+      		</div>
       
-      <div class="row">
+      		<div class="row">
 				<div class="col-md-6">
 					<div class="form-group">
-						<select class="browser-default custom-select custom-select-lg mb-3 col-lg-12">
-              <option selected>Choisir l'UE</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select>
+						<select class="form-control col-lg-12">
+							<option selected>Choisir l'UE</option>
+							<option value="1">One</option>
+							<option value="2">Two</option>
+							<option value="3">Three</option>
+						</select>
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="form-group">
-						<select class="browser-default custom-select custom-select-lg mb-3 col-lg-12">
-              <option selected>Choisir l'ECUE</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select>
+						<select class="form-control col-lg-12">
+							<option >Choisir l'ECUE</option>
+							<option value="1">One</option>
+							<option value="2">Two</option>
+							<option value="3">Three</option>
+						</select>
 					</div>
 				</div>
 			</div>
@@ -275,47 +288,67 @@
 				</div>
 				<div class="col-md-6">
 					<div class="form-group">
-						<label>Prix</label>
+						<label>code ECUE</label>
 						<input type="text" class="form-control" placeholder="Course category">
 					</div>
 				</div>
 			</div>
-			<!-- /row-->
-			<!-- <div class="row">
-				<div class="col-md-6">
-					<div class="form-group">
-						<label>Course start</label>
-						<input type="text" class="form-control date-pick" placeholder="Course start">
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="form-group">
-						<label>Course expire</label>
-						<input type="email" class="form-control date-pick" placeholder="Your email">
-					</div>
-				</div>
-			</div> -->
-			<!-- /row-->
+			
 			<div class="row">
 				<div class="col-md-6">
 					<div class="form-group">
-						<label>Nom du professeur</label>
-						<input type="text" class="form-control" placeholder="Course teacher">
+						<label>Prix</label>
+						<input type="number" class="form-control" placeholder="0Fcfa">
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label>Prix de reduction</label>
+						<input type="number" class="form-control" placeholder="0Fcfa">
 					</div>
 				</div>
 			</div>
-			<!-- /row-->
+			
+			<div class="row">
+			<div class="col-md-12">
+				<h6>Item</h6>
+				<table id="pricing-list-container" style="width:100%;">
+					<tr class="pricing-list-item">
+						<td>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="inputGroupFileAddon01">Télécharger</span>
+								</div>
+								<div class="custom-file">
+									<input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+									<label class="custom-file-label" for="inputGroupFile01">Choisir le fichier</label>
+								</div>
+							</div>
+						
+						</td>
+					</tr>
+				</table>
+
+			</div>
+		</div>
+		</div>
+
+			
+		<div class="box_general padding_bottom">
+			<div class="header_box version_2">
+				<h2><i class="fa fa-file-text"></i>Compétence</h2>
+			</div>
 			<div class="row">
 				<div class="col-md-12">
 					<div class="form-group">
-						<label>Teaser</label>
-						<form action="/file-upload" class="dropzone" ></form>
+						<label>Compétences visés</label>
+						<textarea rows="5" class="form-control" style="height:100px;" placeholder="Description"></textarea>
 					</div>
 				</div>
 			</div>
-			<!-- /row-->
+			
 		</div>
-		<!-- /box_general-->
+	
 		
 		<div class="box_general padding_bottom">
 			<div class="header_box version_2">
@@ -329,19 +362,41 @@
 					</div>
 				</div>
 			</div>
-			<!-- /row-->
-			<!-- <div class="row">
+			
+		</div>
+
+			
+		<div class="box_general padding_bottom">
+			<div class="header_box version_2">
+				<h2><i class="fa fa-file-text"></i>Objectifs général</h2>
+			</div>
+			<div class="row">
 				<div class="col-md-12">
 					<div class="form-group">
-						<label>Category <a href="#0" data-toggle="tooltip" data-placement="top" title="Separated by commas"><i class="fa fa-fw fa-question-circle"></i></a></label>
-						<input type="text" class="form-control" placeholder="Ex: Science, Biology...">
+						<label>Course description</label>
+						<textarea rows="5" class="form-control" style="height:100px;" placeholder="Description"></textarea>
 					</div>
 				</div>
-			</div> -->
-			<!-- /row-->
+			</div>
+			
 		</div>
-		<!-- /box_general-->
-		
+
+			
+		<div class="box_general padding_bottom">
+			<div class="header_box version_2">
+				<h2><i class="fa fa-file-text"></i>Objectifs spécifiques</h2>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="form-group">
+						<label>Course description</label>
+						<textarea rows="5" class="form-control" style="height:100px;" placeholder="Description"></textarea>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+
 		<div class="box_general padding_bottom">
 			<div class="header_box version_2">
 				<h2><i class="fa fa-video-camera"></i>Videos</h2>
@@ -382,45 +437,45 @@
       </div>
       
 
-			<!-- /row-->
+			
     </div>
     
 
     <div class="box_general padding_bottom">
-			<div class="header_box version_2">
-				<h2><i class="fa fa-video-camera"></i>PDF</h2>
-			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<h6>Item</h6>
-					<table id="pricing-list-container" style="width:100%;">
-						<tr class="pricing-list-item">
-							<td>
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
-                  </div>
-                  <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-                    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-                  </div>
-                </div>
-								
+		<div class="header_box version_2">
+			<h2><i class="fa fa-video-camera"></i>PDF</h2>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<h6>Item</h6>
+				<table id="pricing-list-container" style="width:100%;">
+					<tr class="pricing-list-item">
+						<td>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="inputGroupFileAddon01">Télécharger</span>
 								</div>
-							</td>
-						</tr>
-					</table>
-				
-					</div>
-      </div>
-      
+								<div class="custom-file">
+									<input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+									<label class="custom-file-label" for="inputGroupFile01">Choisir le fichier</label>
+								</div>
+							</div>
+						
+						</td>
+					</tr>
+				</table>
+
+			</div>
+		</div>
 
 			<!-- /row-->
-		</div>
+	</div>
+
+</form> 
 
 		<!-- /box_general-->
 		<p><a href="#0" class="btn_1 medium">Save</a></p>
-	  </div>
+	</div>
 	  <!-- /.container-fluid-->
    	</div>
     <!-- /.container-wrapper-->

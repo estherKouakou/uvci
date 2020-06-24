@@ -3,12 +3,12 @@
 define('DB_SERVER', 'localhost');
 define('DB_USERNAME', 'root');
 define('DB_PASSWORD', '');
-define('DB_NAME', 'registration');
+define('DB_NAME', 'amos_bd');
  
-// Connexion à la base de données MySQL 
+// Connexion ï¿½ la base de donnï¿½es MySQL 
 $conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
  
-// Vérifier la connexion
+// Vï¿½rifier la connexion
 if($conn === false){
     die("ERREUR : Impossible de se connecter. " . mysqli_connect_error());
 }
