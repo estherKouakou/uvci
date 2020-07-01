@@ -2,3 +2,8 @@
 .margin-top{
     margin-top: 30px !important; 
 }
+
+.help-inline
+{
+    color: red !important;
+}

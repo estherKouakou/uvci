@@ -1,5 +1,82 @@
 <?php
- require 'database.php'
+ require 'database.php';
+
+
+ $Error = $fileError = $title = $file = $eval = "";
+
+ if(!empty($_POST)){
+	 $UE = checkInput($_POST['UE']);
+	 $title = checkInput($_POST['title']);
+	
+	 $file = checkInput($_FILES['file']['name']);
+	 $filePath = 'img/' . basename($file);
+	 $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
+	 
+	 $isSuccess = true;
+	 $isUploadSuccess = false;
+
+
+		if (empty($title)){
+			$Error = 'Ce champ ne peut pas être vide';
+			$isSuccess = false;
+		}
+		if (empty($file)){
+			$fileError = 'Ce champ ne peut pas être vide';
+			$isSuccess = false;
+		}
+		if (empty($eval)){
+			$Error = 'Ce champ ne peut pas être vide';
+			$isSuccess = false;
+		}
+	 
+	 	else{ 
+			$isUploadSuccess = true;
+
+            if($fileExtension != "pdf" && $fileExtension != "mp3" && $fileExtension != "mp4") 
+            {
+                $fileError = "Les fichiers autorises sont: .pdf, .mp3, .mp4";
+                $isUploadSuccess = false;
+            }
+            if(file_exists($filePath)) 
+            {
+                $fileError = "Le fichier existe deja";
+                $isUploadSuccess = false;
+            }
+            if($_FILES["image"]["size"] > 500000) 
+            {
+                $fileError = "Le fichier ne doit pas depasser les 500KB";
+                $isUploadSuccess = false;
+            }
+            if($isUploadSuccess) 
+            {
+                if(!move_uploaded_file($_FILES["logo"]["tmp_name"], $filePath)) 
+                {
+                    $fileError = "Il y a eu une erreur lors de l'upload";
+                    $isUploadSuccess = false;
+                } 
+            } 
+	 }
+
+	 if($isSuccess && $isUploadSuccess) 
+	 {
+		 $db = Database::connect();
+		 $statement = $db->prepare("INSERT INTO lecon (name,ressource,eval) values(?, ?, ?)");
+		 $statement->execute(array($title,$file,$eval));
+		 Database::disconnect();
+		 header("Location: reviews.php");
+	 }
+	  
+ }
+
+
+
+ function checkInput($data){
+	 $data = trim($data);
+	 $data = stripslashes($data);
+	 $data = htmlspecialchars($data);
+	 return $data;
+ }
+
 ?>
 
 
@@ -49,84 +126,45 @@
     <img src="img/logo.png" data-retina="true" alt="" width="163" height="36"/>
 </a>
 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-<span class="navbar-toggler-icon"></span>
+	<span class="navbar-toggler-icon"></span>
 </button>
 <div class="collapse navbar-collapse" id="navbarResponsive">
-<ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
-<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-<a class="nav-link" href="index_1.php">
-<i class="fa fa-fw fa-dashboard"></i>
-<span class="nav-link-text">Dashboard</span>
-</a>
-</li>
-
-<!-- <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Messages">
-//   <a class="nav-link" href="messages.html">
-//     <i class="fa fa-fw fa-envelope-open"></i>
-//     <span class="nav-link-text">Messages</span>
-//   </a>
-// </li>
-// <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Bookings">
-//   <a class="nav-link" href="courses.html">
-//     <i class="fa fa-fw fa-archive"></i>
-//     <span class="nav-link-text">Courses <span class="badge badge-pill badge-primary">6 New</span></span>
-//   </a>
-// </li> -->
-<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Reviews">
-	<a class="nav-link" href="reviews.html">
-		<i class="fa fa-fw fa-plus-circle"></i>
-		<span class="nav-link-text">Ajouter Cour</span>
-	</a>
-</li>
+	<ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+		<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+			<a class="nav-link" href="index_1.php">
+				<i class="fa fa-fw fa-dashboard"></i>
+				<span class="nav-link-text">Dashboard</span>
+			</a>
+		</li>
 
 
-<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Bookmarks">
-	<a class="nav-link" href="tables.html">
-	  <i class="fa fa-fw fa-heart"></i>
-	  <span class="nav-link-text">Voir Classe</span>
-	</a>
-  </li>
+		<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
+   			<a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
+   				<i class="fa fa-fw fa-plus-circle"></i>
+     			<span class="nav-link-text">Ajouter</span>
+   			</a>
+   			<ul class="sidenav-second-level collapse" id="collapseComponents">
 
-<!-- <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Bookmarks">
-//   <a class="nav-link" href="bookmarks.html">
-//     <i class="fa fa-fw fa-heart"></i>
-//     <span class="nav-link-text">Bookmarks</span>
-//   </a>
-// </li>
-// <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add listing">
-//   <a class="nav-link" href="add-listing.html">
-//     <i class="fa fa-fw fa-plus-circle"></i>
-//     <span class="nav-link-text">Add listing</span>
-//   </a>
-// </li>
-// <li class="nav-item" data-toggle="tooltip" data-placement="right" title="My profile">
-//   <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseProfile" data-parent="#exampleAccordion">
-//     <i class="fa fa-fw fa-wrench"></i>
-//     <span class="nav-link-text">My profile</span>
-//   </a>
-//   <ul class="sidenav-second-level collapse" id="collapseProfile">
-//     <li>
-//       <a href="user-profile.html">User profile</a>
-//     </li>
-//     <li>
-//       <a href="teacher-profile.html">Teacher profile</a>
-//     </li>
-//   </ul>
-// </li>
-// <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
-//   <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
-//     <i class="fa fa-fw fa-gear"></i>
-//     <span class="nav-link-text">Components</span>
-//   </a>
-//   <ul class="sidenav-second-level collapse" id="collapseComponents">
-//     <li>
-//       <a href="charts.html">Charts</a>
-//     </li>
-//     <li>
-//       <a href="tables.html">Tables</a>
-//     </li>
-//   </ul>
-// </li> -->
+       			<li>
+       				<a href="messages.html">Ajouter UE</a>
+     			</li>
+     			<li>
+       				<a href="viewECUE">Ajouter ECUE</a>
+     			</li>
+     			<li>
+       				<a href="reviews.html">Ajouter Cour</a>
+     			</li>
+   			</ul>
+ 		</li>
+
+		<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Bookmarks">
+			<a class="nav-link" href="tables.html">
+				<i class="fa fa-fw fa-heart"></i>
+				<span class="nav-link-text">Voir Classe</span>
+			</a>
+		</li>
+
+
 </ul>
 <ul class="navbar-nav sidenav-toggler">
 <li class="nav-item">
@@ -137,86 +175,7 @@
 </ul>
 <ul class="navbar-nav ml-auto">
 <li class="nav-item dropdown">
-<!-- <a class="nav-link dropdown-toggle mr-lg-2" id="messagesDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-//     <i class="fa fa-fw fa-envelope"></i>
-//     <span class="d-lg-none">Messages
-//       <span class="badge badge-pill badge-primary">12 New</span>
-//     </span>
-//     <span class="indicator text-primary d-none d-lg-block">
-//       <i class="fa fa-fw fa-circle"></i>
-//     </span>
-//   </a> -->
 
-
-<!-- <div class="dropdown-menu" aria-labelledby="messagesDropdown">
-//     <h6 class="dropdown-header">New Messages:</h6>
-//     <div class="dropdown-divider"></div>
-//     <a class="dropdown-item" href="#">
-//       <strong>David Miller</strong>
-//       <span class="small float-right text-muted">11:21 AM</span>
-//       <div class="dropdown-message small">Hey there! This new version of SB Admin is pretty awesome! These messages clip off when they reach the end of the box so they dont overflow over to the sides!</div>
-//     </a>
-//     <div class="dropdown-divider"></div>
-//     <a class="dropdown-item" href="#">
-//       <strong>Jane Smith</strong>
-//       <span class="small float-right text-muted">11:21 AM</span>
-//       <div class="dropdown-message small">I was wondering if you could meet for an appointment at 3:00 instead of 4:00. Thanks!</div>
-//     </a>
-//     <div class="dropdown-divider"></div>
-//     <a class="dropdown-item" href="#">
-//       <strong>John Doe</strong>
-//       <span class="small float-right text-muted">11:21 AM</span>
-//       <div class="dropdown-message small">I've sent the final files over to you for review. When you're able to sign off of them let me know and we can discuss distribution.</div>
-//     </a>
-//     <div class="dropdown-divider"></div>
-//     <a class="dropdown-item small" href="#">View all messages</a>
-//   </div>
-// </li>
-// <li class="nav-item dropdown">
-//   <a class="nav-link dropdown-toggle mr-lg-2" id="alertsDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-//     <i class="fa fa-fw fa-bell"></i>
-//     <span class="d-lg-none">Alerts
-//       <span class="badge badge-pill badge-warning">6 New</span>
-//     </span>
-//     <span class="indicator text-warning d-none d-lg-block">
-//       <i class="fa fa-fw fa-circle"></i>
-//     </span>
-//   </a> -->
-
-
-<!-- <div class="dropdown-menu" aria-labelledby="alertsDropdown">
-//     <h6 class="dropdown-header">New Alerts:</h6>
-//     <div class="dropdown-divider"></div>
-//     <a class="dropdown-item" href="#">
-//       <span class="text-success">
-//         <strong>
-//           <i class="fa fa-long-arrow-up fa-fw"></i>Status Update</strong>
-//       </span>
-//       <span class="small float-right text-muted">11:21 AM</span>
-//       <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
-//     </a>
-//     <div class="dropdown-divider"></div>
-//     <a class="dropdown-item" href="#">
-//       <span class="text-danger">
-//         <strong>
-//           <i class="fa fa-long-arrow-down fa-fw"></i>Status Update</strong>
-//       </span>
-//       <span class="small float-right text-muted">11:21 AM</span>
-//       <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
-//     </a>
-//     <div class="dropdown-divider"></div>
-//     <a class="dropdown-item" href="#">
-//       <span class="text-success">
-//         <strong>
-//           <i class="fa fa-long-arrow-up fa-fw"></i>Status Update</strong>
-//       </span>
-//       <span class="small float-right text-muted">11:21 AM</span>
-//       <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
-//     </a>
-//     <div class="dropdown-divider"></div>
-//     <a class="dropdown-item small" href="#">View all alerts</a>
-//   </div> -->
-<!-- //</li> -->
 <li class="nav-item">
 <form class="form-inline my-2 my-lg-0 mr-lg-2">
 <div class="input-group">
@@ -256,226 +215,47 @@
 				<h2><i class="fa fa-file"></i>Basic info</h2>
       		</div>
       
-      		<div class="row">
-				<div class="col-md-6">
-					<div class="form-group">
-						<select class="form-control col-lg-12">
-							<option selected>Choisir l'UE</option>
-							<option value="1">One</option>
-							<option value="2">Two</option>
-							<option value="3">Three</option>
-						</select>
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="form-group">
-						<select class="form-control col-lg-12">
-							<option >Choisir l'ECUE</option>
-							<option value="1">One</option>
-							<option value="2">Two</option>
-							<option value="3">Three</option>
-						</select>
-					</div>
-				</div>
-			</div>
-<hr>
+ 
 			<div class="row">
 				<div class="col-md-6">
 					<div class="form-group">
-						<label>Titre Cour</label>
-						<input type="text" class="form-control" placeholder="Course title">
+						<label for="title">Titre Lecon</label>
+						<input type="text" class="form-control" placeholder="Course title" name='title' id='title'>
+						<span class="help-inline"><?php echo $Error;?></span>
 					</div>
 				</div>
+
 				<div class="col-md-6">
 					<div class="form-group">
-						<label>code ECUE</label>
-						<input type="text" class="form-control" placeholder="Course category">
+						<label for="file">Ressource</label>
+						<input type="file" class="form-control" name='file' id='file'>
+						<span class="help-inline"><?php echo $fileError;?></span>
 					</div>
 				</div>
+				
 			</div>
-			
-			<div class="row">
-				<div class="col-md-6">
-					<div class="form-group">
-						<label>Prix</label>
-						<input type="number" class="form-control" placeholder="0Fcfa">
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="form-group">
-						<label>Prix de reduction</label>
-						<input type="number" class="form-control" placeholder="0Fcfa">
-					</div>
-				</div>
-			</div>
-			
+
 			<div class="row">
 			<div class="col-md-12">
-				<h6>Item</h6>
-				<table id="pricing-list-container" style="width:100%;">
-					<tr class="pricing-list-item">
-						<td>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text" id="inputGroupFileAddon01">Télécharger</span>
-								</div>
-								<div class="custom-file">
-									<input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-									<label class="custom-file-label" for="inputGroupFile01">Choisir le fichier</label>
-								</div>
-							</div>
-						
-						</td>
-					</tr>
-				</table>
-
-			</div>
-		</div>
-		</div>
-
-			
-		<div class="box_general padding_bottom">
-			<div class="header_box version_2">
-				<h2><i class="fa fa-file-text"></i>Compétence</h2>
-			</div>
-			<div class="row">
-				<div class="col-md-12">
 					<div class="form-group">
-						<label>Compétences visés</label>
-						<textarea rows="5" class="form-control" style="height:100px;" placeholder="Description"></textarea>
+						<label for="eval">Evaluation</label>
+                        <textarea rows="5" class="form-control" style="height:100px;" placeholder="Description" name='eval' id='eval'></textarea>
+                        <span class="help-inline"><?php echo $Error;?></span>
 					</div>
 				</div>
 			</div>
-			
+			<button type="submit" class="btn btn-primary">Ajouter</button>
 		</div>
-	
 		
-		<div class="box_general padding_bottom">
-			<div class="header_box version_2">
-				<h2><i class="fa fa-file-text"></i>Description du cour</h2>
-			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<div class="form-group">
-						<label>Course description</label>
-						<textarea rows="5" class="form-control" style="height:100px;" placeholder="Description"></textarea>
-					</div>
-				</div>
-			</div>
-			
 		</div>
-
-			
-		<div class="box_general padding_bottom">
-			<div class="header_box version_2">
-				<h2><i class="fa fa-file-text"></i>Objectifs général</h2>
-			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<div class="form-group">
-						<label>Course description</label>
-						<textarea rows="5" class="form-control" style="height:100px;" placeholder="Description"></textarea>
-					</div>
-				</div>
-			</div>
-			
-		</div>
-
-			
-		<div class="box_general padding_bottom">
-			<div class="header_box version_2">
-				<h2><i class="fa fa-file-text"></i>Objectifs spécifiques</h2>
-			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<div class="form-group">
-						<label>Course description</label>
-						<textarea rows="5" class="form-control" style="height:100px;" placeholder="Description"></textarea>
-					</div>
-				</div>
-			</div>
-			
-		</div>
-
-		<div class="box_general padding_bottom">
-			<div class="header_box version_2">
-				<h2><i class="fa fa-video-camera"></i>Videos</h2>
-			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<h6>Item</h6>
-					<table id="pricing-list-container" style="width:100%;">
-						<tr class="pricing-list-item">
-							<td>
-								<div class="row">
-									<div class="col-md-4">
-										<div class="form-group">
-											<input type="text" class="form-control" placeholder="Video title">
-										</div>
-									</div>
-									<div class="col-md-3">
-										<div class="form-group">
-											<input type="text" class="form-control" placeholder="Video category">
-										</div>
-									</div>
-									<div class="col-md-3">
-										<div class="form-group">
-											<input type="text" class="form-control"  placeholder="Video URL">
-										</div>
-									</div>
-									<div class="col-md-2">
-										<div class="form-group">
-											<a class="delete" href="#"><i class="fa fa-fw fa-remove"></i></a>
-										</div>
-									</div>
-								</div>
-							</td>
-						</tr>
-					</table>
-					<a href="#0" class="btn_1 gray add-pricing-list-item"><i class="fa fa-fw fa-plus-circle"></i>Add Item</a>
-					</div>
-      </div>
-      
-
 			
     </div>
-    
-
-    <div class="box_general padding_bottom">
-		<div class="header_box version_2">
-			<h2><i class="fa fa-video-camera"></i>PDF</h2>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<h6>Item</h6>
-				<table id="pricing-list-container" style="width:100%;">
-					<tr class="pricing-list-item">
-						<td>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text" id="inputGroupFileAddon01">Télécharger</span>
-								</div>
-								<div class="custom-file">
-									<input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-									<label class="custom-file-label" for="inputGroupFile01">Choisir le fichier</label>
-								</div>
-							</div>
-						
-						</td>
-					</tr>
-				</table>
-
-			</div>
-		</div>
-
 			<!-- /row-->
 	</div>
 
 </form> 
 
-		<!-- /box_general-->
-		<p><a href="#0" class="btn_1 medium">Save</a></p>
-	</div>
+</div>
 	  <!-- /.container-fluid-->
    	</div>
     <!-- /.container-wrapper-->

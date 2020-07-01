@@ -1,16 +1,3 @@
-
-
-<?php
-	// Initialiser la session
-	session_start();
-	// Vérifiez si l'utilisateur est connecté, sinon redirigez-le vers la page de connexion
-	if(!isset($_SESSION["username"])){
-		header("Location: login.php");
-		exit(); 
-	}
-?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,15 +26,15 @@
   <!-- Icon fonts-->
   <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   <!-- Plugin styles -->
-  <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+  <link href="vendor/animate.min.css" rel="stylesheet">
+  <link href="vendor/magnific-popup.css" rel="stylesheet">
   <!-- Your custom styles -->
   <link href="css/custom.css" rel="stylesheet">
 	
 </head>
 
 <body class="fixed-nav sticky-footer" id="page-top">
-
-
+  <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-default fixed-top" id="mainNav">
     <a class="navbar-brand" href="index_1.php">
     <img src="img/logo.png" data-retina="true" alt="" width="163" height="36"/>
@@ -58,39 +45,40 @@
 <div class="collapse navbar-collapse" id="navbarResponsive">
 <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-<a class="nav-link" href="index.html">
+<a class="nav-link" href="index_1.php">
 <i class="fa fa-fw fa-dashboard"></i>
 <span class="nav-link-text">Dashboard</span>
 </a>
 </li>
 
+
 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
-   <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
-   <i class="fa fa-fw fa-plus-circle"></i>
-     <span class="nav-link-text">Ajouter</span>
-   </a>
-   <ul class="sidenav-second-level collapse" id="collapseComponents">
+  <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
+  <i class="fa fa-fw fa-plus-circle"></i>
+    <span class="nav-link-text">Ajouter</span>
+  </a>
+  <ul class="sidenav-second-level collapse" id="collapseComponents">
 
-       <li>
-       <a href="messages.html">Ajouter UE</a>
-     </li>
-     <li>
-       <a href="viewECUE.php">Ajouter ECUE</a>
-     </li>
-     <li>
-       <a href="reviews.php">Ajouter Cour</a>
-     </li>
-   </ul>
- </li>
-
+      <li>
+      <a href="messages.html">Ajouter UE</a>
+    </li>
+    <li>
+      <a href="viewECUE.php">Ajouter ECUE</a>
+    </li>
+    <li>
+      <a href="reviews.html">Ajouter Cour</a>
+    </li>
+  </ul>
+</li>
 
 
 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Bookmarks">
-   <a class="nav-link" href="tables.html">
-     <i class="fa fa-fw fa-heart"></i>
-     <span class="nav-link-text">Voir Classe</span>
-   </a>
- </li>
+  <a class="nav-link" href="tables.html">
+    <i class="fa fa-fw fa-heart"></i>
+    <span class="nav-link-text">Voir Classe</span>
+  </a>
+</li>
+
 
 </ul>
 <ul class="navbar-nav sidenav-toggler">
@@ -126,6 +114,7 @@
 
  
 
+  <!-- /Navigation-->
   <div class="content-wrapper">
     <div class="container-fluid">
       <!-- Breadcrumbs-->
@@ -133,87 +122,96 @@
         <li class="breadcrumb-item">
           <a href="#">Dashboard</a>
         </li>
-        <li class="breadcrumb-item active">My Dashboard</li>
+        <li class="breadcrumb-item active">Reviews</li>
       </ol>
-	  <!-- Icon Cards-->
-      <div class="row">
-        <div class="col-xl-3 col-sm-6 mb-3">
-          <div class="card dashboard text-white bg-primary o-hidden h-100">
-            <div class="card-body">
-              <div class="card-body-icon">
-                <i class="fa fa-fw fa-envelope-open"></i>
-              </div>
-              <div class="mr-5"><h5>26 New Messages!</h5></div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="messages.html">
-              <span class="float-left">View Details</span>
-              <span class="float-right">
-                <i class="fa fa-angle-right"></i>
-              </span>
-            </a>
-          </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-3">
-          <div class="card dashboard text-white bg-warning o-hidden h-100">
-            <div class="card-body">
-              <div class="card-body-icon">
-                <i class="fa fa-fw fa-star"></i>
-              </div>
-				<div class="mr-5"><h5>11 New Reviews!</h5></div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="reviews.html">
-              <span class="float-left">View Details</span>
-              <span class="float-right">
-                <i class="fa fa-angle-right"></i>
-              </span>
-            </a>
-          </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-3">
-          <div class="card dashboard text-white bg-success o-hidden h-100">
-            <div class="card-body">
-              <div class="card-body-icon">
-                <i class="fa fa-fw fa-calendar-check-o"></i>
-              </div>
-              <div class="mr-5"><h5>10 New Courses!</h5></div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="bookings.html">
-              <span class="float-left">View Details</span>
-              <span class="float-right">
-                <i class="fa fa-angle-right"></i>
-              </span>
-            </a>
-          </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-3">
-          <div class="card dashboard text-white bg-danger o-hidden h-100">
-            <div class="card-body">
-              <div class="card-body-icon">
-                <i class="fa fa-fw fa-heart"></i>
-              </div>
-              <div class="mr-5"><h5>10 New Bookmarks!</h5></div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="bookmarks.html">
-              <span class="float-left">View Details</span>
-              <span class="float-right">
-                <i class="fa fa-angle-right"></i>
-              </span>
-            </a>
-          </div>
-        </div>
-		</div>
-		<!-- /cards -->
-		<h2></h2>
-		<div class="box_general padding_bottom">
-			<div class="header_box version_2">
-				<h2><i class="fa fa-bar-chart"></i>Statistic</h2>
+		<div class="box_general">
+			<div class="header_box">
+				<h2 class="d-inline-block">Cours ajoutés</h2>
+				<div class="filter">
+          <p><a href="add-listing.php" class="btn_1 medium">Ajouter</a></p>
+				</div>
 			</div>
-		 <canvas id="myAreaChart" width="100%" height="30" style="margin:45px 0 15px 0;"></canvas>
+			<div class="list_general reviews">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Nom</th>
+              <th scope="col">UE</th>
+              <th scope="col">ECUE</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>Mark</td>
+             
+              <td>
+                <row>
+                  
+                  <button type="button" class="btn btn-secondary">Voir</button>
+                  <button type="button" class="btn btn-info">Moddifier</button>
+                  <button type="button" class="btn btn-danger">Suprimmer</button>
+                
+                </row>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>Jacob</td>
+              <td>Thornton</td>
+              <td>Mark</td>
+              
+              <td>
+                <row>
+                  <button type="button" class="btn btn-secondary">Voir</button>
+                  <button type="button" class="btn btn-info">Moddifier</button>
+                  <button type="button" class="btn btn-danger">Suprimmer</button>
+                
+                </row>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>Larry</td>
+              <td>the Bird</td>
+              <td>Mark</td>
+              
+              <td>
+                <row>
+                <button type="button" class="btn btn-secondary">Voir</button>
+                  <button type="button" class="btn btn-info">Moddifier</button>
+                  <button type="button" class="btn btn-danger">Suprimmer</button>
+                
+                </row>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+			</div>
 		</div>
+		<!-- /box_general-->
+		<nav aria-label="...">
+			<ul class="pagination pagination-sm add_bottom_30">
+				<li class="page-item disabled">
+					<a class="page-link" href="#" tabindex="-1">Previous</a>
+				</li>
+				<li class="page-item"><a class="page-link" href="#">1</a></li>
+				<li class="page-item"><a class="page-link" href="#">2</a></li>
+				<li class="page-item"><a class="page-link" href="#">3</a></li>
+				<li class="page-item">
+					<a class="page-link" href="#">Next</a>
+				</li>
+			</ul>
+		</nav>
+		<!-- /pagination-->
 	  </div>
-	  <!-- /.container-fluid-->
+	  <!-- /container-fluid-->
    	</div>
-    <!-- /.container-wrapper-->
+    <!-- /container-wrapper-->
     <footer class="sticky-footer">
       <div class="container">
         <div class="text-center">
@@ -225,6 +223,20 @@
     <a class="scroll-to-top rounded" href="#page-top">
       <i class="fa fa-angle-up"></i>
     </a>
+	
+	<!-- Reply to review popup -->
+	<div id="modal-reply" class="white-popup mfp-with-anim mfp-hide">
+		<div class="small-dialog-header">
+			<h3>Reply to review</h3>
+		</div>
+		<div class="message-reply margin-top-0">
+			<div class="form-group">
+				<textarea cols="40" rows="3" class="form-control"></textarea>
+			</div>
+			<button class="btn_1">Reply</button>
+		</div>
+	</div>
+
     <!-- Logout Modal-->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -249,7 +261,7 @@
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <!-- Page level plugin JavaScript-->
-    <script src="vendor/chart.js/Chart.js"></script>
+    <script src="vendor/chart.js/Chart.min.js"></script>
     <script src="vendor/datatables/jquery.dataTables.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
 	<script src="vendor/jquery.selectbox-0.2.js"></script>
@@ -257,8 +269,6 @@
 	<script src="vendor/jquery.magnific-popup.min.js"></script>
     <!-- Custom scripts for all pages-->
     <script src="js/admin.js"></script>
-	<!-- Custom scripts for this page-->
-    <script src="js/admin-charts.js"></script>
 	
 </body>
 </html>

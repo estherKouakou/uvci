@@ -1,13 +1,52 @@
-
-
 <?php
-	// Initialiser la session
-	session_start();
-	// Vérifiez si l'utilisateur est connecté, sinon redirigez-le vers la page de connexion
-	if(!isset($_SESSION["username"])){
-		header("Location: login.php");
-		exit(); 
-	}
+ require 'database.php';
+ $codeError = $UEError = $name = $code = "";
+
+ if(!empty($_POST)){
+    $name = checkInput($_POST['name']);
+    $code = checkInput($_POST['code']);
+
+    $isSuccess          = true;
+    $isUploadSuccess    = false;
+        
+        if(empty($name)) 
+        {
+            $UEError = 'Ce champ ne peut pas être vide';
+            $isSuccess = false;
+        }
+        if(empty($description)) 
+        {
+            $codeError = 'Ce champ ne peut pas être vide';
+            $isSuccess = false;
+        } 
+        else 
+        {
+            $isUploadSuccess = true;
+        }
+
+         
+        if($isSuccess && $isUploadSuccess) 
+        {
+            $db = Database::connect();
+            $statement = $db->prepare("INSERT INTO ue (nom_ue,code_ue) values(?, ?)");
+            $statement->execute(array($name,$code));
+            Database::disconnect();
+            header("Location: index.php");
+        }
+
+
+ }
+
+
+ 
+ function checkInput($data){
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+
 ?>
 
 
@@ -20,7 +59,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="Ansonika">
-  <title>UDEMA - Admin dashboard</title>
+  <title>UDEMA - Ajouter UE</title>
 	
   <!-- Favicons-->
   <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
@@ -40,14 +79,18 @@
   <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   <!-- Plugin styles -->
   <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <link href="vendor/dropzone.css" rel="stylesheet">
+  <link href="css/date_picker.css" rel="stylesheet">
   <!-- Your custom styles -->
   <link href="css/custom.css" rel="stylesheet">
 	
 </head>
 
 <body class="fixed-nav sticky-footer" id="page-top">
-
-
+  <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-default fixed-top" id="mainNav">
     <a class="navbar-brand" href="index_1.php">
     <img src="img/logo.png" data-retina="true" alt="" width="163" height="36"/>
@@ -58,7 +101,7 @@
 <div class="collapse navbar-collapse" id="navbarResponsive">
 <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-<a class="nav-link" href="index.html">
+<a class="nav-link" href="index_1.php">
 <i class="fa fa-fw fa-dashboard"></i>
 <span class="nav-link-text">Dashboard</span>
 </a>
@@ -75,10 +118,10 @@
        <a href="messages.html">Ajouter UE</a>
      </li>
      <li>
-       <a href="viewECUE.php">Ajouter ECUE</a>
+       <a href="">Ajouter ECUE</a>
      </li>
      <li>
-       <a href="reviews.php">Ajouter Cour</a>
+       <a href="reviews.html">Ajouter Cour</a>
      </li>
    </ul>
  </li>
@@ -86,11 +129,11 @@
 
 
 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Bookmarks">
-   <a class="nav-link" href="tables.html">
-     <i class="fa fa-fw fa-heart"></i>
-     <span class="nav-link-text">Voir Classe</span>
-   </a>
- </li>
+	<a class="nav-link" href="tables.html">
+	  <i class="fa fa-fw fa-heart"></i>
+	  <span class="nav-link-text">Voir Classe</span>
+	</a>
+  </li>
 
 </ul>
 <ul class="navbar-nav sidenav-toggler">
@@ -126,91 +169,54 @@
 
  
 
-  <div class="content-wrapper">
+  <!-- /Navigation-->
+<div class="content-wrapper">
     <div class="container-fluid">
       <!-- Breadcrumbs-->
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href="#">Dashboard</a>
-        </li>
-        <li class="breadcrumb-item active">My Dashboard</li>
-      </ol>
-	  <!-- Icon Cards-->
-      <div class="row">
-        <div class="col-xl-3 col-sm-6 mb-3">
-          <div class="card dashboard text-white bg-primary o-hidden h-100">
-            <div class="card-body">
-              <div class="card-body-icon">
-                <i class="fa fa-fw fa-envelope-open"></i>
-              </div>
-              <div class="mr-5"><h5>26 New Messages!</h5></div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="messages.html">
-              <span class="float-left">View Details</span>
-              <span class="float-right">
-                <i class="fa fa-angle-right"></i>
-              </span>
-            </a>
-          </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-3">
-          <div class="card dashboard text-white bg-warning o-hidden h-100">
-            <div class="card-body">
-              <div class="card-body-icon">
-                <i class="fa fa-fw fa-star"></i>
-              </div>
-				<div class="mr-5"><h5>11 New Reviews!</h5></div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="reviews.html">
-              <span class="float-left">View Details</span>
-              <span class="float-right">
-                <i class="fa fa-angle-right"></i>
-              </span>
-            </a>
-          </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-3">
-          <div class="card dashboard text-white bg-success o-hidden h-100">
-            <div class="card-body">
-              <div class="card-body-icon">
-                <i class="fa fa-fw fa-calendar-check-o"></i>
-              </div>
-              <div class="mr-5"><h5>10 New Courses!</h5></div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="bookings.html">
-              <span class="float-left">View Details</span>
-              <span class="float-right">
-                <i class="fa fa-angle-right"></i>
-              </span>
-            </a>
-          </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-3">
-          <div class="card dashboard text-white bg-danger o-hidden h-100">
-            <div class="card-body">
-              <div class="card-body-icon">
-                <i class="fa fa-fw fa-heart"></i>
-              </div>
-              <div class="mr-5"><h5>10 New Bookmarks!</h5></div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="bookmarks.html">
-              <span class="float-left">View Details</span>
-              <span class="float-right">
-                <i class="fa fa-angle-right"></i>
-              </span>
-            </a>
-          </div>
-        </div>
-		</div>
-		<!-- /cards -->
-		<h2></h2>
+      	<ol class="breadcrumb">
+			<li class="breadcrumb-item">
+				<a href="#">Dashboard</a>
+			</li>
+			<li class="breadcrumb-item active">Ajouter un cour</li>
+		</ol>
+		<form role="form" action="addUE.php" method="POST"> 
 		<div class="box_general padding_bottom">
 			<div class="header_box version_2">
-				<h2><i class="fa fa-bar-chart"></i>Statistic</h2>
-			</div>
-		 <canvas id="myAreaChart" width="100%" height="30" style="margin:45px 0 15px 0;"></canvas>
+				<h2><i class="fa fa-plus"></i>Ajouter</h2>
+      		</div>
+  
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="name">Nom</label>
+                        <input type="text" class="form-control" placeholder="Course title" name='name' id='name'>
+                        <span class="help-inline"><?php echo $UEError;?></span>
+					</div>
+                </div>
+                
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="code">Code</label>
+                        <input type="text" class="form-control" placeholder="Code UE" name="code" id="code">
+                        <span class="help-inline"><?php echo $codeError;?></span>
+					</div>
+				</div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Ajouter</button>
+		
 		</div>
-	  </div>
+	
+    </div>
+    
+
+			<!-- /row-->
+    </div>
+    
+
+    </form> 
+
+	</div>
 	  <!-- /.container-fluid-->
    	</div>
     <!-- /.container-wrapper-->
@@ -244,12 +250,14 @@
       </div>
     </div>
     <!-- Bootstrap core JavaScript-->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <!-- Page level plugin JavaScript-->
-    <script src="vendor/chart.js/Chart.js"></script>
+    <script src="vendor/chart.js/Chart.min.js"></script>
     <script src="vendor/datatables/jquery.dataTables.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
 	<script src="vendor/jquery.selectbox-0.2.js"></script>
@@ -258,7 +266,9 @@
     <!-- Custom scripts for all pages-->
     <script src="js/admin.js"></script>
 	<!-- Custom scripts for this page-->
-    <script src="js/admin-charts.js"></script>
+	<script src="vendor/dropzone.min.js"></script>
+	<script src="vendor/bootstrap-datepicker.js"></script>
+	<script>$('input.date-pick').datepicker();</script>
 	
 </body>
 </html>

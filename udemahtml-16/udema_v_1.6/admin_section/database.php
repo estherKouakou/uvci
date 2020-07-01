@@ -17,7 +17,7 @@
             return self::$connection;
         }
 
-        private static function disconnect(){
+        public static function disconnect(){
             self::$connection = null;
         }
 
