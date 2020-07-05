@@ -1,9 +1,10 @@
 <?php
- require 'database.php';
- $logoError = $Error = $name = $code = $price = $type = $intitule = $time = $logo = $cible = $prerequis = $volume = $general = $specific = $competence = "";
+ require_once('@function/database.php');
+ $logoError = $Error = $name = $category = $code = $price = $type = $intitule = $time = $logo = $cible = $prerequis = $volume = $general = $specific = $competence = "";
 
  if(!empty($_POST)){
     $name = checkInput($_POST['name']);
+    $category = checkInput($_POST['category']); 
     $code = checkInput($_POST['code']);
     $price = checkInput($_POST['price']);
     $type = checkInput($_POST['type']);
@@ -28,6 +29,13 @@
             $Error = 'Ce champ ne peut pas être vide';
             $isSuccess = false;
         }
+
+        if(empty($category)) 
+        {
+            $Error = 'Ce champ ne peut pas être vide';
+            $isSuccess = false;
+        }
+
         if(empty($code)) 
         {
             $Error = 'Ce champ ne peut pas être vide';
@@ -129,8 +137,8 @@
         if($isSuccess && $isUploadSuccess) 
         {
             $db = Database::connect();
-            $statement = $db->prepare("INSERT INTO ecue (nom_ecue,logo_ecue,ancien_prix,code_ecue,type_cours,intitule,duree,public_cible,prerequis,volume_horaire,objectif_general,objectif_specifique,competence_vise) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $statement->execute(array($name,$logo,$price,$code,$type,$intitule,$time,$cible,$prerequis,$volume,$general,$specific,$competence));
+            $statement = $db->prepare("INSERT INTO ecue (nom_ecue,id_ue,logo_ecue,ancien_prix,code_ecue,type_cours,intitule,duree,public_cible,prerequis,volume_horaire,objectif_general,objectif_specifique,competence_vise) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $statement->execute(array($name,$category,$logo,$price,$code,$type,$intitule,$time,$cible,$prerequis,$volume,$general,$specific,$competence));
             Database::disconnect();
             header("Location: viewECUE.php");
         }
@@ -193,80 +201,10 @@
 <body class="fixed-nav sticky-footer" id="page-top">
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-default fixed-top" id="mainNav">
-    <a class="navbar-brand" href="index_1.php">
-    <img src="img/logo.png" data-retina="true" alt="" width="163" height="36"/>
-</a>
-<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-<span class="navbar-toggler-icon"></span>
-</button>
-<div class="collapse navbar-collapse" id="navbarResponsive">
-<ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
-<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-<a class="nav-link" href="index_1.php">
-<i class="fa fa-fw fa-dashboard"></i>
-<span class="nav-link-text">Dashboard</span>
-</a>
-</li>
-
-<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
-   <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
-   <i class="fa fa-fw fa-plus-circle"></i>
-     <span class="nav-link-text">Ajouter</span>
-   </a>
-   <ul class="sidenav-second-level collapse" id="collapseComponents">
-
-       <li>
-       <a href="messages.html">Ajouter UE</a>
-     </li>
-     <li>
-       <a href="viewECUE.php">Ajouter ECUE</a>
-     </li>
-     <li>
-       <a href="reviews.html">Ajouter Cour</a>
-     </li>
-   </ul>
- </li>
-
-
-
-<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Bookmarks">
-	<a class="nav-link" href="tables.html">
-	  <i class="fa fa-fw fa-heart"></i>
-	  <span class="nav-link-text">Voir Classe</span>
-	</a>
-  </li>
-
-</ul>
-<ul class="navbar-nav sidenav-toggler">
-<li class="nav-item">
-<a class="nav-link text-center" id="sidenavToggler">
-<i class="fa fa-fw fa-angle-left"></i>
-</a>
-</li>
-</ul>
-<ul class="navbar-nav ml-auto">
-<li class="nav-item dropdown">
-
-<li class="nav-item">
-<form class="form-inline my-2 my-lg-0 mr-lg-2">
-<div class="input-group">
-  <input class="form-control search-top" type="text" placeholder="Search for...">
-  <span class="input-group-btn">
-    <button class="btn btn-primary" type="button">
-      <i class="fa fa-search"></i>
-    </button>
-  </span>
-</div>
-</form>
-</li>
-<li class="nav-item">
-<a class="nav-link" data-toggle="modal" data-target="#exampleModal">
-<i class="fa fa-fw fa-sign-out"></i>Logout</a>
-</li>
-</ul>
-</div>
-   </div>
-</nav>
+    <?php include_once('include/nav.php') ?>
+    <?php include_once('include/sidebar.php') ?>
+   
+  </nav>
 
  
 
@@ -280,11 +218,31 @@
 			</li>
 			<li class="breadcrumb-item active">Ajouter un cour</li>
 		</ol>
-		<form role="form" action="addECUE.php" method="POST"> 
+		<form role="form" action="addECUE.php" enctype="multipart/form-data" method="POST"> 
 		<div class="box_general padding_bottom">
 			<div class="header_box version_2">
-				<h2><i class="fa fa-plus"></i>Ajouter</h2>
-      		</div>
+                <h2><i class="fa fa-plus"></i>Ajouter</h2>
+               
+                </div>
+              <!-- </div> -->
+              
+              <div class="row">
+                  <div class="col-md-4">
+                      <div class="form-group">
+                      <label for="categorie">Choisir L'UE</label>
+                        <select class="browser-default custom-select" id="category" name="category">
+                        <?php
+                           $db = Database::connect();
+                           foreach ($db->query('SELECT id_ue,nom_ue FROM ue') as $row) 
+                           {
+                                echo '<option value="'. $row['id_ue'] .'">'. $row['nom_ue'] . '</option>';
+                           }
+                           Database::disconnect();
+                        ?>
+                        </select>
+                      </div>
+                  </div>
+              </div>
   
 			<div class="row">
 				<div class="col-md-4">

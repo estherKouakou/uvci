@@ -23,6 +23,9 @@
 
     }
 
+
     Database::connect();
+    // Initialiser la session
+	session_start();
 
 ?>

@@ -1,47 +1,19 @@
 
 
 <?php
-	// Initialiser la session
-	session_start();
-	// Vérifiez si l'utilisateur est connecté, sinon redirigez-le vers la page de connexion
-	if(!isset($_SESSION["username"])){
-		header("Location: login.php");
-		exit(); 
-	}
-?>
+	
+  require_once('@function/database.php');
+ ?>
+ 
+
 
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="Ansonika">
   <title>UDEMA - Admin dashboard</title>
-	
-  <!-- Favicons-->
-  <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
-  <link rel="apple-touch-icon" type="image/x-icon" href="img/apple-touch-icon-57x57-precomposed.png">
-  <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="img/apple-touch-icon-72x72-precomposed.png">
-  <link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="img/apple-touch-icon-114x114-precomposed.png">
-  <link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="img/apple-touch-icon-144x144-precomposed.png">
-
-  <!-- GOOGLE WEB FONT -->
-  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800" rel="stylesheet">
-	
-  <!-- Bootstrap core CSS-->
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Main styles -->
-  <link href="css/admin.css" rel="stylesheet">
-  <!-- Icon fonts-->
-  <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-  <!-- Plugin styles -->
-  <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
-  <!-- Your custom styles -->
-  <link href="css/custom.css" rel="stylesheet">
+  <?php include_once('include/head.php') ?>
 	
 </head>
 
@@ -49,80 +21,11 @@
 
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-default fixed-top" id="mainNav">
-    <a class="navbar-brand" href="index_1.php">
-    <img src="img/logo.png" data-retina="true" alt="" width="163" height="36"/>
-</a>
-<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-<span class="navbar-toggler-icon"></span>
-</button>
-<div class="collapse navbar-collapse" id="navbarResponsive">
-<ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
-<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-<a class="nav-link" href="index_1.php">
-<i class="fa fa-fw fa-dashboard"></i>
-<span class="nav-link-text">Dashboard</span>
-</a>
-</li>
-
-<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
-   <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
-   <i class="fa fa-fw fa-plus-circle"></i>
-     <span class="nav-link-text">Ajouter</span>
-   </a>
-   <ul class="sidenav-second-level collapse" id="collapseComponents">
-
-       <li>
-       <a href="messages.html">Ajouter UE</a>
-     </li>
-     <li>
-       <a href="viewECUE.php">Ajouter ECUE</a>
-     </li>
-     <li>
-       <a href="reviews.php">Ajouter Cour</a>
-     </li>
-   </ul>
- </li>
-
-
-
-<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Bookmarks">
-   <a class="nav-link" href="tables.html">
-     <i class="fa fa-fw fa-heart"></i>
-     <span class="nav-link-text">Voir Classe</span>
-   </a>
- </li>
-
-</ul>
-<ul class="navbar-nav sidenav-toggler">
-<li class="nav-item">
-<a class="nav-link text-center" id="sidenavToggler">
-<i class="fa fa-fw fa-angle-left"></i>
-</a>
-</li>
-</ul>
-<ul class="navbar-nav ml-auto">
-<li class="nav-item dropdown">
-
-<li class="nav-item">
-<form class="form-inline my-2 my-lg-0 mr-lg-2">
-<div class="input-group">
-  <input class="form-control search-top" type="text" placeholder="Search for...">
-  <span class="input-group-btn">
-    <button class="btn btn-primary" type="button">
-      <i class="fa fa-search"></i>
-    </button>
-  </span>
-</div>
-</form>
-</li>
-<li class="nav-item">
-<a class="nav-link" data-toggle="modal" data-target="#exampleModal">
-<i class="fa fa-fw fa-sign-out"></i>Logout</a>
-</li>
-</ul>
-</div>
-   </div>
+    <?php include_once('include/nav.php') ?>
+    <?php include_once('include/sidebar.php') ?>
+   
 </nav>
+
 
  
 <div class="content-wrapper">
@@ -145,7 +48,7 @@
         <table class="table table-striped">
           <thead>
             <tr>
-              <th scope="col">#</th>
+              
               <th scope="col">Nom</th>
               <th scope="col">Code</th>
               <th scope="col">type du cour</th>
@@ -154,51 +57,32 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>
-                <row>
-                  <a href=""><button type="button" class="btn btn-secondary">Voir</button></a>
-                  <a href="updateECUE.php"><button type="button" class="btn btn-info">Moddifier</button></a>
-                  <a href=""><button type="button" class="btn btn-danger">Suprimmer</button></a>
-                
-                </row>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>
-                <row>
-                  <a href=""><button type="button" class="btn btn-secondary">Voir</button></a>
-                  <a href="updateECUE.php"><button type="button" class="btn btn-info">Moddifier</button></a>
-                  <a href=""><button type="button" class="btn btn-danger">Suprimmer</button></a>
-                
-                </row>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>
-                <row>
-                  <a href=""><button type="button" class="btn btn-secondary">Voir</button></a>
-                  <a href="updateECUE.php"><button type="button" class="btn btn-info">Moddifier</button></a>
-                  <a href=""><button type="button" class="btn btn-danger">Suprimmer</button></a>
-                
-                </row>
-              </td>
-            </tr>
+            <?php
+               $db = Database::connect();
+               $statement = $db->query('SELECT ecue.id_ecue, ecue.nom_ecue, ecue.logo_ecue, ecue.ancien_prix, ecue.code_ecue, ecue.type_cours, ecue.intitule, ecue.duree, ecue.public_cible, ecue.prerequis,ecue.volume_horaire, ecue.objectif_general, ecue.objectif_specifique, ecue.competence_vise, ue.nom_ue AS category FROM ecue LEFT JOIN ue ON ecue.category = ue.id ORDER BY ecue.id DESC');
+
+               
+
+
+               while($item = $statement->fetch()) {
+                 echo '<tr>';
+                 echo '<td>'. $item['nom_ecue'] . '</td>';
+                 echo '<td>'. $item['code_ecue'] . '</td>';
+                 echo '<td>'. $item['type_cours'] . '</td>';
+                 echo '<td>'. $item['duree'] . '</td>';
+                 
+                 echo '<td width=300>';
+                 echo '<a class="btn btn-secondary" href="ECUE.php?id='.$item['id'].'"><span class="glyphicon glyphicon-eye-open"></span> Voir</a>';
+                 echo ' ';
+                 echo '<a class="btn btn-info" href="updateECUE.php?id='.$item['id'].'"><span class="glyphicon glyphicon-pencil"></span> Modifier</a>';
+                 echo ' ';
+                 echo '<a class="btn btn-danger" href="delateECUE.php?id='.$item['id'].'"><span class="glyphicon glyphicon-remove"></span> Supprimer</a>';
+                 echo '</td>';
+                 echo '</tr>';
+               }
+               Database::disconnect();
+            ?>
+          
           </tbody>
         </table>
 			</div>

@@ -1105,3 +1105,10 @@ select.form-control:not([size]):not([multiple]) {
 .sbOptions .sbSub {
   padding-left: 17px;
 }
+/**********************************************************************************/
+
+
+
+.admin h1{
+ text-align: center;
+}
