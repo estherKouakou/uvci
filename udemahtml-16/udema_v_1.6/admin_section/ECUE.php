@@ -68,8 +68,8 @@
 
     <!-- Grid column -->
     <div class="col-lg-5 mb-lg-0 mb-5">
-
-      <img src="https://mdbootstrap.com/img/Photos/Others/images/83.jpg" class="img-fluid rounded z-depth-1" alt="Sample project image">
+    
+      <img src="<?php echo '../images/'.$logo;?>" class="img-fluid rounded z-depth-1" alt="Sample project image">
 
     </div>
     <!-- Grid column -->
